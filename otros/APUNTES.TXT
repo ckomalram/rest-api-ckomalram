@@ -1,0 +1,104 @@
+API son las siglas de Aplication Programming Interface, en español Interfaz de Programación de Aplicaciones. Se trata de un conjunto de reglas que va a definir cómo se comunican dos aplicaciones entre sí.
+
+Qué es y cómo funciona el protocolo HTTP
+    https://www.digival.es/blog/que-son-las-dns-y-para-que-sirven/
+    https://www.ibm.com/support/knowledgecenter/es/ssw_aix_72/network/tcpip_protocols.html
+    https://neo.lcc.uma.es/evirtual/cdd/tutorial/aplicacion/http.html
+
+    curl
+    curl -v
+    curl -v https://google.com > 
+¿Que es REST?
+https://es.wikipedia.org/wiki/Simple_Object_Access_Protocol
+    REST es un acrónimo de Representational State Transfer 
+    o transferencia de estado representacional, 
+    le agrega una capa muy delgada de complejidad 
+    y abstracción a HTTP. Mientras que HTTP es 
+    transferencia de archivos, 
+    REST se basa en la transferencia de recursos.
+
+¿Qué es una API RESTful?
+    Una API RESTful es una API diseñada con los conceptos de REST:
+
+    Recurso: todo dentro de una API RESTful debe ser un recurso.
+    URI: los recursos en REST siempre se manipulan a partir de la URI, identificadores universales de recursos.
+    Acción: todas las peticiones a tu API RESTful deben estar asociadas a uno de los verbos de HTTP: GET para obtener un recurso, POST para escribir un recurso, PUT para modificar un recurso y DELETE para borrarlo.
+    REST es muy útil cuando:
+
+    Las interacciones son simples.
+    Los recursos de tu hardware son limitados.
+    No conviene cuando las interacciones son muy complejas.
+
+¿Cómo realizar una petición REST e interpretar sus resultados?
+
+    Utilizando el comando ‘curl’ dentro de nuestra terminal podemos realizar peticiones a cualquier sitio web, por ejemplo una API como la de xkcd.
+    curl https://xkcd.com/info.0.json
+
+    El anterior comando nos regresa información del API, pero de manera poco legible. para poder verlo de manera más ordenada podemos usar el siguiente comando:
+    curl https://xkcd.com/info.0.json | jq
+
+REST CONTROL ACCESS:
+    La autenticación vía HTTP tiene dos problemas:
+
+    Es poco segura: las credenciales se envían en cada request anteponiendo el usuario y contraseña en la url, por ejemplo: user:password@platzi.com.
+    Es ineficiente: la autenticación se debe realizar en cada request.
+    http://carlyle:1234@localhost:8000/books
+
+Autenticación vía HMAC
+        Para esta autenticación necesitamos 3 elementos:
+        Función Hash: Difícil de romper, que sea conocida por el cliente y servidor.
+        Clave secreta: Solamente la pueden saber el cliente y el servidor, será utilizada para corroborar el hash.
+        UID: El id del usuario, será utilizado dentro de la función hash junto con la clave secreta y un timestamp.
+        Es mucho más segura que la autenticación vía HTTP, por ello la información que se envía a través de este método no es muy sensible.
+
+    Autenticación vía Access Tokens
+    Está forma es la más compleja de todas, pero también es la forma más segura utilizada para información muy sensible. El servidor al que le van a hacer las consultas se va a partir en dos:
+
+    Uno se va a encargar específicamente de la autenticación.
+    El otro se va a encargar de desplegar los recursos de la API.
+    El flujo de la petición es la siguiente:
+
+    Nuestro usuario hace una petición al servidor de autenticación para pedir un token.
+    El servidor le devuelve el token.
+    El usuario hace una petición al servidor para pedir recursos de la API.
+    El servidor con los recursos hace una petición al servidor de autenticación para verificar que el token sea válido.
+    Una vez verificado el token, el servidor le devuelve los recursos al cliente.
+
+
+Manejo de errores de un servicio REST
+https://www.restapitutorial.com/httpstatuscodes.html
+    De momento nuestra API no nos indica que haya ocurrido un error, solamente nos regresa un código 200 de HTTP que significa que la petición se realizó sin problemas.
+
+    Para mejorar nuestra API añadiremos respuestas con los códigos HTTP más comunes:
+
+    400 Bad Request: indica que el servidor no puede o no procesa la petición debido a algo que es percibido como un error del cliente
+    404 Not Found: el servidor no encuentra el recurso solicitado.
+    500 Internal Server Error: la petición no pudo procesarse por un error del servidor.
+
+Los códigos de estado en HTTP se clasifican en varios tipos:
+1xx: Respuestas informativas
+2xx: Peticiones correctas
+3xx: Redirecciones
+4xx: Errores del cliente
+5xx: Errores del servidor
+Los más comunes:
+400 Bad Request: Error en la petición.
+401 Unauthorized: Falta iniciar sesión.
+403 Forbidden: No se poseeen los permisos necesarios.
+404 Not Found: No se ha podido encontrar el recurso.
+500 Internal Server error: Usualmente fallo en la aplicación web.
+502 Bad Gateway: Error entre la comunicación del servidor web y alguno de los servidores que actúan de proxy.
+503 Service Unavailable: Servidor está caido por mantenimiento o está sobrecargado.
+504 Gateway Timeout: El servidor actúa como puerta de enlace y no puede obtener una respuesta a tiempo.
+
+
+Introducción a Ajax
+    Es muy común tener comunicaciones con API REST
+     al momento de tener una aplicación de 
+     una sola página o SPA, ya sea para 
+     obtener o guardar datos. 
+     Esta comunicación se realiza 
+     a través de AJAX, Asynchronous 
+     JavaScript XML. 
+     la clave es la parte de asincronismo
+      pues el cliente no se queda bloqueado.
